@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',  # add before django.contrib.staticfiles
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
@@ -52,8 +53,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # add this right after SecurityMiddleware
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'employee_management.urls'
@@ -83,11 +86,11 @@ WSGI_APPLICATION = 'employee_management.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'employee_db',          # Database you created
+        'NAME': 'railway',          # Database you created
         'USER': 'root',                 # Your MySQL user (e.g., root)
-        'PASSWORD': 'root',    # Your MySQL password
-        'HOST': 'localhost',            # Or '127.0.0.1'
-        'PORT': '3306',                 # Default MySQL port
+        'PASSWORD': 'kTeXNoplKuXCTWDTwQaeqlFzfsfMmJeJ',    # Your MySQL password
+        'HOST': 'shortline.proxy.rlwy.net',            # Or '127.0.0.1'
+        'PORT': '15896',                 # Default MySQL port
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
@@ -129,7 +132,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+import os
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -151,3 +158,12 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',   # change later if you want protected routes
     ],
 }
+
+CORS_ALLOW_ALL_ORIGINS= True
+CORS_ALLOW_CREDENTIALS = True
+ALLOWED_HOSTS= ['*']
+
+DEBUG = False
+ALLOWED_HOSTS = ['*']
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
